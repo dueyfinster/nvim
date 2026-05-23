@@ -13,7 +13,7 @@ keymap("n", "<C-u>", "<C-u>zz", { desc = "Half-page up and center" })
 
 --- save and quit
 keymap("n", "<Leader>s", "<cmd>w!<CR>", { silent = true, desc = "Save file" })
-keymap("n", "<Leader>q", "<cmd>q<CR>", { silent = true, desc = "Quit window" })
+keymap("n", "<Leader>q", "<cmd>q!<CR>", { silent = true, desc = "Force quit window" })
 
 -- tabs
 keymap("n", "<Leader>te", "<cmd>tabnew<CR>", { silent = true, desc = "Tab new" })
