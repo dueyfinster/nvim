@@ -74,6 +74,7 @@ require("mason-lspconfig").setup({
         "gopls",
         "lua_ls",
         "pyright",
+        "ruby_lsp",
         "rust_analyzer",
         "yamlls",
     },
