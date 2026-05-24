@@ -59,19 +59,6 @@ vim.pack.add({
 require('mini.pick').setup()
 require('mini.extra').setup()
 
-require('nvim-treesitter').setup()
-
-require('nvim-treesitter').install({
-  'elixir',
-  'lua',
-  'go',
-  'rust',
-  'javascript',
-  'python',
-  'vim',
-  'vimdoc',
-})
-
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
 vim.g.fff = {

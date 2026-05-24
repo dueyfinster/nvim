@@ -1,5 +1,6 @@
 require("plugins")
 require("configs")
 require("lsp")
+require("treesitter")
 require("keymaps")
 require("autocmds")
