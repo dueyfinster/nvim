@@ -107,6 +107,13 @@ vim.keymap.set('n', '<leader>fb', function()
   require('mini.pick').builtin.buffers()
 end, { desc = 'Buffers' })
 
+vim.keymap.set('n', '<leader>fg', function()
+  require('fff').live_grep()
+end, { desc = 'Grep files' })
+
+vim.keymap.set('n', '<leader>ff', function()
+  require('fff').find_files()
+end, { desc = 'Find files' })
 vim.keymap.set('n', '<leader>fh', function()
   require('mini.pick').builtin.help()
 end, { desc = 'Help' })
