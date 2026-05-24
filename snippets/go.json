@@ -18,5 +18,12 @@
       "}"
     ],
     "description": "Return early on error"
+  },
+  "fmt.Println": {
+    "prefix": "fp",
+    "body": [
+      "fmt.Println(\"$0\")"
+    ],
+    "description": "Print a statement in Go"
   }
 }
