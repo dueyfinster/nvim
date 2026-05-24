@@ -1,0 +1,7 @@
+{
+  "Todo comment": {
+    "prefix": "todo",
+    "body": "TODO(${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}): $1",
+    "description": "TODO comment with today's date"
+  }
+}

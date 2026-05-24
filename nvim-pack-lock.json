@@ -33,6 +33,10 @@
       "rev": "4522d9ab65224675df2cf1ede8c12f0410aae2be",
       "src": "https://github.com/nvim-mini/mini.pick"
     },
+    "mini.snippets": {
+      "rev": "9a08aa14e02abb790c823a622d7d6c736cbbe65a",
+      "src": "https://github.com/echasnovski/mini.snippets"
+    },
     "minifugit.nvim": {
       "rev": "4be9101beb505e41a0377b1ea80b032a4726f33c",
       "src": "https://github.com/vieitesss/minifugit.nvim"

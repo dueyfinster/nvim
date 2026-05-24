@@ -1,0 +1,19 @@
+{
+  "Main guard": {
+    "prefix": "main",
+    "body": [
+      "def main():",
+      "    $1",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "    main()"
+    ],
+    "description": "Python main entrypoint"
+  },
+  "Import alias": {
+    "prefix": "imp",
+    "body": "import ${1:module}${2: as ${3:alias}}",
+    "description": "Python import statement"
+  }
+}

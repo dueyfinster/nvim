@@ -1,0 +1,23 @@
+{
+  "Require module": {
+    "prefix": "req",
+    "body": "local ${1:name} = require(\"${2:module}\")",
+    "description": "Local require binding"
+  },
+  "Neovim keymap": {
+    "prefix": "keymap",
+    "body": "keymap(\"${1:n}\", \"${2:<leader>x}\", ${3:function()\\n  ${4:-- body}\\nend}, { desc = \"${5:Description}\" })",
+    "description": "Neovim keymap shortcut"
+  },
+  "Main function": {
+    "prefix": "main",
+    "body": [
+      "local function main()",
+      "  $1",
+      "end",
+      "",
+      "main()"
+    ],
+    "description": "Lua script entrypoint"
+  }
+}

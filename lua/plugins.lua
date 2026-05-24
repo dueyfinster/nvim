@@ -24,6 +24,8 @@ vim.pack.add({
         src = "https://github.com/saghen/blink.cmp",
         version = vim.version.range("^1"),
     },
+    -- personal snippets
+    { src = "https://github.com/echasnovski/mini.snippets" },
     -- file manager
     { src = "https://github.com/stevearc/oil.nvim" },
     -- Show key bindings
@@ -58,6 +60,19 @@ vim.pack.add({
 
 require('mini.pick').setup()
 require('mini.extra').setup()
+local gen_loader = require("mini.snippets").gen_loader
+require("mini.snippets").setup({
+    snippets = {
+        gen_loader.from_file(vim.fn.stdpath("config") .. "/snippets/global.json"),
+        gen_loader.from_lang(),
+    },
+    mappings = {
+        expand = "",
+        jump_next = "<C-l>",
+        jump_prev = "<C-h>",
+        stop = "<C-c>",
+    },
+})
 
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
@@ -108,6 +123,7 @@ require("minifugit").setup({
 require("blink.cmp").setup({
     fuzzy = { implementation = "prefer_rust_with_warning" },
     signature = { enabled = true },
+    snippets = { preset = "mini_snippets" },
     keymap = {
         preset = "default",
         ["<C-space>"] = {},
@@ -144,7 +160,7 @@ require("blink.cmp").setup({
         },
     },
 
-    sources = { default = { "lsp" } },
+    sources = { default = { "lsp", "snippets" } },
 })
 
 require("oil").setup({

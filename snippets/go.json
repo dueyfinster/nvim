@@ -1,0 +1,22 @@
+{
+  "Main function": {
+    "prefix": "main",
+    "body": [
+      "package main",
+      "",
+      "func main() {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Go main program skeleton"
+  },
+  "Error check": {
+    "prefix": "iferr",
+    "body": [
+      "if err != nil {",
+      "\treturn err",
+      "}"
+    ],
+    "description": "Return early on error"
+  }
+}
