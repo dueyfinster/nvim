@@ -74,6 +74,8 @@ keymap("n", "<leader>oc", function()
     require("oil").open(vim.fn.getcwd())
 end, { desc = "Open Oil at cwd" })
 
+keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 
 
 local function visual_selection()
@@ -133,6 +135,7 @@ require("which-key").add({
   { "<leader>h", group = "harp" },
   { "<leader>o", group = "open" },
   { "<leader>q", group = "quit" },
+  { "<leader>r", group = "run" },
   { "<leader>t", group = "tabs" },
   { "<leader>w", group = "window" },
 })
