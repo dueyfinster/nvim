@@ -3,6 +3,9 @@ vim.opt_local.expandtab = false
 local output_buf
 local output_win
 local job_id
+vim.b.go_format_on_save = true
+
+local format_group = vim.api.nvim_create_augroup("go_format_on_save", { clear = false })
 
 local function output_height()
   return math.max(10, math.floor(vim.o.lines / 3))
@@ -38,11 +41,25 @@ local function ensure_output_buffer()
   vim.bo[output_buf].swapfile = false
 end
 
+local function scroll_output_to_bottom()
+  if not output_win or not vim.api.nvim_win_is_valid(output_win) then
+    return
+  end
+
+  if not output_buf or not vim.api.nvim_buf_is_valid(output_buf) then
+    return
+  end
+
+  local last_line = math.max(1, vim.api.nvim_buf_line_count(output_buf))
+  pcall(vim.api.nvim_win_set_cursor, output_win, { last_line, 0 })
+end
+
 local function set_output(lines)
   ensure_output_buffer()
   vim.bo[output_buf].modifiable = true
   vim.api.nvim_buf_set_lines(output_buf, 0, -1, false, lines)
   vim.bo[output_buf].modifiable = false
+  scroll_output_to_bottom()
 end
 
 local function append_output(lines)
@@ -58,6 +75,7 @@ local function append_output(lines)
   vim.bo[output_buf].modifiable = true
   vim.api.nvim_buf_set_lines(output_buf, -1, -1, false, lines)
   vim.bo[output_buf].modifiable = false
+  scroll_output_to_bottom()
 end
 
 local function close_go_output()
@@ -72,6 +90,26 @@ local function close_go_output()
   end
 
   output_win = nil
+end
+
+local function format_go_buffer()
+  if not vim.b.go_format_on_save then
+    return
+  end
+
+  vim.lsp.buf.format({
+    async = false,
+    timeout_ms = 2000,
+    filter = function(client)
+      return client.name == "gopls"
+    end,
+  })
+end
+
+local function toggle_go_format_on_save()
+  vim.b.go_format_on_save = not vim.b.go_format_on_save
+  local state = vim.b.go_format_on_save and "enabled" or "disabled"
+  vim.notify("Go format on save " .. state)
 end
 
 local function run_go()
@@ -122,6 +160,16 @@ vim.api.nvim_buf_create_user_command(0, "GoRun", run_go, {
   desc = "Run go program in an output split",
 })
 
+vim.api.nvim_buf_create_user_command(0, "GoFormatToggle", toggle_go_format_on_save, {
+  desc = "Toggle Go format on save for this buffer",
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = format_group,
+  buffer = 0,
+  callback = format_go_buffer,
+})
+
 vim.keymap.set("n", "<leader>rr", run_go, {
   buffer = true,
   desc = "Run Go program",
@@ -130,4 +178,9 @@ vim.keymap.set("n", "<leader>rr", run_go, {
 vim.keymap.set("n", "<leader>rc", close_go_output, {
   buffer = true,
   desc = "Close Go output",
+})
+
+vim.keymap.set("n", "<leader>rf", toggle_go_format_on_save, {
+  buffer = true,
+  desc = "Toggle Go format on save",
 })
