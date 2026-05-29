@@ -92,10 +92,45 @@ local function close_go_output()
   output_win = nil
 end
 
+local function organize_go_imports()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "gopls" })
+
+  if vim.tbl_isempty(clients) then
+    return
+  end
+
+  local params = vim.lsp.util.make_range_params(0, clients[1].offset_encoding)
+  params.context = {
+    only = { "source.organizeImports" },
+    diagnostics = {},
+  }
+
+  for _, client in ipairs(clients) do
+    local result = client:request_sync("textDocument/codeAction", params, 2000, bufnr)
+
+    for _, action in ipairs(result and result.result or {}) do
+      if action.edit then
+        vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+      end
+
+      local action_command = action.command
+      if action_command then
+        local command = type(action_command) == "table" and action_command or action
+        client:exec_cmd(command, { bufnr = bufnr })
+      end
+
+      return
+    end
+  end
+end
+
 local function format_go_buffer()
   if not vim.b.go_format_on_save then
     return
   end
+
+  organize_go_imports()
 
   vim.lsp.buf.format({
     async = false,

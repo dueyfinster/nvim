@@ -101,9 +101,12 @@ keymap("x", "<leader>fg", function()
 end, { desc = "Grep visual selection" })
 
 
-vim.keymap.set('n', '<leader>ff', function()
+local function find_files()
   require('fff').find_files()
-end, { desc = 'Find files' })
+end
+
+vim.keymap.set('n', '<leader>ff', find_files, { desc = 'Find files' })
+vim.keymap.set('n', '<leader><leader>', find_files, { desc = 'Find files' })
 
 vim.keymap.set('n', '<leader>fb', function()
   require('mini.pick').builtin.buffers()
@@ -113,9 +116,6 @@ vim.keymap.set('n', '<leader>fg', function()
   require('fff').live_grep()
 end, { desc = 'Grep files' })
 
-vim.keymap.set('n', '<leader>ff', function()
-  require('fff').find_files()
-end, { desc = 'Find files' })
 vim.keymap.set('n', '<leader>fh', function()
   require('mini.pick').builtin.help()
 end, { desc = 'Help' })
